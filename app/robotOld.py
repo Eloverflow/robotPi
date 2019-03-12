@@ -25,96 +25,47 @@ rightSideForward=13
 #Disable warnings
 GPIO.setwarnings(False)
 
-frequence=20 #in hz
-
-#PWM dc_speeds
-dc_stop = 100
-dc_speed1 = 40
-dc_speed2 = 35
-dc_speed3 = 30
-dc_speed4 = 25
-dc_speed5 = 15
-dc_speed7 = 5
-
 #Configure GPIO
 GPIO.setmode(GPIO.BOARD)
-
 GPIO.setup(leftSideDisable, GPIO.OUT)
-leftSide = GPIO.PWM(leftSideDisable, frequence)
 GPIO.setup(leftSideForward, GPIO.OUT)
-
 GPIO.setup(rightSideDisable, GPIO.OUT)
-rightSide = GPIO.PWM(rightSideDisable, frequence)
 GPIO.setup(rightSideForward, GPIO.OUT)
 
 #Initial state
-rightSide.start(dc_stop)
+GPIO.output(leftSideDisable , 1)
 GPIO.output(leftSideForward , 0)
-leftSide.start(dc_stop)
+GPIO.output(rightSideDisable, 1)
 GPIO.output(rightSideForward, 0)
-
-def set_speed_left(power):
-    print >>sys.stderr, 'power left', power
-    if power == "9":
-       leftSide.stop()
-    if power == "7":
-       leftSide.start(dc_speed7)
-    if power == "5":
-       leftSide.start(dc_speed5)
-    if power == "4":
-       leftSide.start(dc_speed4)
-    if power == "3":
-       leftSide.start(dc_speed3)
-    if power == "2":
-       leftSide.start(dc_speed2)
-    if power == "1":
-       leftSide.start(dc_speed1)
-
-def set_speed_right(power):
-    print >>sys.stderr, 'power right', power
-    if power == "9":
-       rightSide.stop()
-    if power == "7":
-       rightSide.start(dc_speed7)
-    if power == "5":
-       rightSide.start(dc_speed5)
-    if power == "4":
-       rightSide.start(dc_speed4)
-    if power == "3":
-       rightSide.start(dc_speed3)
-    if power == "2":
-       rightSide.start(dc_speed2)
-    if power == "1":
-       rightSide.start(dc_speed1)
 
 def left_side_forward(power):
     print >>sys.stderr, 'left_side_forward'
-    set_speed_left(power)
+    GPIO.output(leftSideDisable, 0)
     GPIO.output(leftSideForward, 1)
 
 def right_side_forward(power):
     print >>sys.stderr, 'right_side_forward'
-    set_speed_right(power)
+    GPIO.output(rightSideDisable, 0)
     GPIO.output(rightSideForward, 1)
 
 def left_side_reverse(power):
     print >>sys.stderr, 'left_side_reverse'
-    set_speed_left(power)
+    GPIO.output(leftSideDisable, 0)
     GPIO.output(leftSideForward, 0)
 
 def right_side_reverse(power):
     print >>sys.stderr, 'right_side_reverse'
-    set_speed_right(power)
+    GPIO.output(rightSideDisable, 0)
     GPIO.output(rightSideForward, 0)
 
 def stopLeft():
     print >>sys.stderr, 'stopLeft'
-    leftSide.start(dc_stop)
+    GPIO.output(leftSideDisable , 1)
     GPIO.output(leftSideForward , 0)
 
 def stopRight():
     print >>sys.stderr, 'stopRight'
-    rightSide.start(dc_stop)
+    GPIO.output(rightSideDisable, 1)
     GPIO.output(rightSideForward, 0)
 
 data=""
@@ -170,6 +121,4 @@ while not timeToQuit:
 
 
     connection.close()
-
-GPIO.cleanup()
 sock.shutdown(socket.SHUT_RDWR)
