@@ -32,7 +32,8 @@
         custom:JV_borderWidth="8dp"
         custom:JV_backgroundColor="#222"
         custom:JV_borderColor="#333"
-        custom:JV_buttonColor="#555"/>
+        custom:JV_buttonColor="#555"
+        custom:JV_buttonDirection="vertical"/>
 
 
     <TextView
@@ -72,6 +73,7 @@
         custom:JV_borderWidth="8dp"
         custom:JV_backgroundColor="#222"
         custom:JV_borderColor="#333"
-        custom:JV_buttonColor="#555"/>
+        custom:JV_buttonColor="#555"
+        custom:JV_buttonDirection="vertical"/>
 
 </RelativeLayout>

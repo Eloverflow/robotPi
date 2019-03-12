@@ -2,21 +2,11 @@ package io.github.controlwear.joystickdemo;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.TextView;
-import java.io.ByteArrayOutputStream;
-import java.io.Console;
-import java.io.DataOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.Socket;
 
 import io.github.controlwear.virtual.joystick.android.JoystickView;
 
@@ -36,16 +26,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        try {
             //CHEAT
-            if (android.os.Build.VERSION.SDK_INT > 9) {
+         /*   if (android.os.Build.VERSION.SDK_INT > 9) {
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                 StrictMode.setThreadPolicy(policy);
             }
-
-
-            // Establish connection
-            final Socket socket = new Socket("192.168.2.210", 10000);
+        */
+            SocketClient socketClient = new SocketClient();// initialize();
+            socketClient.execute();
 
 
             mTextViewAngleLeft = (TextView) findViewById(R.id.textView_angle_left);
@@ -58,42 +46,27 @@ public class MainActivity extends AppCompatActivity {
                 public void onMove(int angle, int strength) {
                     mTextViewAngleLeft.setText(angle + "°");
                     mTextViewStrengthLeft.setText(strength + "%");
-                    try {
-                        // Request data
-                        DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
 
-                        int y = joystickLeft.getNormalizedY();
-                        if(0 <= y && y <= 10){
-                            outputStream.writeChars("L9");
-                        } else if(10 < y && y <= 20){
-                            outputStream.writeChars("L7");
-                        } else if(20 < y && y <= 30){
-                            outputStream.writeChars("L5");
-                        } else if(30 < y && y <= 40){
-                            outputStream.writeChars("L3");
-                        } else if(40 < y && y < 50){
-                            outputStream.writeChars("L1");
-                        } else if(y == 50){
-                            outputStream.writeChars("SL");
-                        } else if(50 < y && y <= 60){
-                            outputStream.writeChars("A1");
-                        } else if(60 < y && y <= 70){
-                            outputStream.writeChars("A3");
-                        } else if(70 < y && y <= 80){
-                            outputStream.writeChars("A5");
-                        } else if(80 < y && y <= 90){
-                            outputStream.writeChars("A7");
-                        } else if(90 < y && y <= 100){
-                            outputStream.writeChars("A9");
-                        }
-
-                    }
-                    catch (IOException io) {
-                        io.printStackTrace();
-                    }
+                    int y = joystickLeft.getNormalizedY();
+                    Log.d("y", y + "");
+                    Log.d("strength", strength + "");
+                    new DirectionSystemOperation().execute(y, strength, 0);
                 }
-            });
+            }, 200);
 
+          /*  joystickLeft.setOnTouchListener(new JoystickView.OnTouchListener() {
+                @SuppressLint("DefaultLocale")
+                @Override
+                public boolean onTouch(View arg0, MotionEvent arg1) {
+
+                    if (arg1.getAction()==MotionEvent.ACTION_UP){
+                        Log.d("released", "");
+                        new DirectionSystemOperation().execute(0, 0, 0);
+                    }
+
+                    return true;
+                }
+            });*/
 
             mTextViewAngleRight = (TextView) findViewById(R.id.textView_angle_right);
             mTextViewStrengthRight = (TextView) findViewById(R.id.textView_strength_right);
@@ -112,48 +85,29 @@ public class MainActivity extends AppCompatActivity {
                                     joystickRight.getNormalizedY())
                     );*/
 
-                    try {
-                        // Request data
-                        DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
-
-                        int y = joystickRight.getNormalizedY();
-                        if(0 <= y && y <= 10){
-                            outputStream.writeChars("R9");
-                        } else if(10 < y && y <= 20){
-                            outputStream.writeChars("R7");
-                        } else if(20 < y && y <= 30){
-                            outputStream.writeChars("R5");
-                        } else if(30 < y && y <= 40){
-                            outputStream.writeChars("R3");
-                        } else if(40 < y && y < 50){
-                            outputStream.writeChars("R1");
-                        } else if(y == 50){
-                            outputStream.writeChars("SR");
-                        } else if(50 < y && y <= 60){
-                            outputStream.writeChars("P1");
-                        } else if(60 < y && y <= 70){
-                            outputStream.writeChars("P3");
-                        } else if(70 < y && y <= 80){
-                            outputStream.writeChars("P5");
-                        } else if(80 < y && y <= 90){
-                            outputStream.writeChars("P7");
-                        } else if(90 < y && y <= 100){
-                            outputStream.writeChars("P9");
-                        }
-
-                    }
-                    catch (IOException io) {
-                        io.printStackTrace();
-                    }
+                    int y = joystickRight.getNormalizedY();
+                    Log.d("y", y + "");
+                    Log.d("strength", strength + "");
+                    new DirectionSystemOperation().execute(y, strength, 1);
 
                 }
+            }, 200);
+
+
+        /*    joystickRight.setOnTouchListener(new JoystickView.OnTouchListener() {
+                @SuppressLint("DefaultLocale")
+                @Override
+                public boolean onTouch(View arg0, MotionEvent arg1) {
+
+                    if (!(arg1.getAction()==MotionEvent.ACTION_DOWN)){
+                        new DirectionSystemOperation().execute(0, 0, 1);
+                    }
+
+                    return true;
+                }
             });
+*/
 
-
-        }
-        catch (IOException io) {
-            io.printStackTrace();
-        }
 
 
 
