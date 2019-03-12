@@ -13,12 +13,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="-30dp"
         custom:JV_borderWidth="8dp"
         custom:JV_backgroundColor="#222"
         custom:JV_borderColor="#333"
         custom:JV_buttonColor="#555"
-        custom:JV_buttonSizeRatio="35%"
+        custom:JV_buttonSizeRatio="25%"
         custom:JV_buttonDirection="vertical"/>
 
 
@@ -29,12 +31,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="-30dp"
         custom:JV_borderWidth="8dp"
         custom:JV_backgroundColor="#222"
         custom:JV_borderColor="#333"
         custom:JV_buttonColor="#555"
-        custom:JV_buttonSizeRatio="35%"
+        custom:JV_buttonSizeRatio="25%"
         custom:JV_buttonDirection="vertical"/>
 
 </RelativeLayout>
