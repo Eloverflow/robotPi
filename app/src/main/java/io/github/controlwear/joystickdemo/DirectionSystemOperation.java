@@ -16,7 +16,7 @@ public class DirectionSystemOperation extends AsyncTask<Integer, Void, String> {
     @Override
     protected String doInBackground(Integer... integers) {
         if(!DirectionSystemService.isExecutionLocked()){
-            DirectionSystemService.setExecutionLocked();
+            //DirectionSystemService.setExecutionLocked();
             directionEventAsync(integers[0], integers[1], integers[2]);
             return "Executed";
         }
@@ -80,7 +80,7 @@ public class DirectionSystemOperation extends AsyncTask<Integer, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        DirectionSystemService.setExecutionUnlocked();
+        //DirectionSystemService.setExecutionUnlocked();
     }
 
 

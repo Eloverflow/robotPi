@@ -7,21 +7,6 @@
     tools:context="io.github.controlwear.joystickdemo.MainActivity"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/textView_angle_left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0°"/>
-
-
-    <TextView
-        android:id="@+id/textView_strength_left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView_angle_left"
-        android:text="0%"/>
-
-
     <io.github.controlwear.virtual.joystick.android.JoystickView
         xmlns:custom="http://schemas.android.com/apk/res-auto"
         android:id="@+id/joystickView_left"
@@ -33,33 +18,8 @@
         custom:JV_backgroundColor="#222"
         custom:JV_borderColor="#333"
         custom:JV_buttonColor="#555"
+        custom:JV_buttonSizeRatio="35%"
         custom:JV_buttonDirection="vertical"/>
-
-
-    <TextView
-        android:id="@+id/textView_angle_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:text="0°"/>
-
-
-    <TextView
-        android:id="@+id/textView_strength_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/textView_angle_right"
-        android:text="0%"/>
-
-
-    <TextView
-        android:id="@+id/textView_coordinate_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/textView_strength_right"
-        android:text="x050:x050"/>
 
 
     <io.github.controlwear.virtual.joystick.android.JoystickView
@@ -74,6 +34,7 @@
         custom:JV_backgroundColor="#222"
         custom:JV_borderColor="#333"
         custom:JV_buttonColor="#555"
+        custom:JV_buttonSizeRatio="35%"
         custom:JV_buttonDirection="vertical"/>
 
 </RelativeLayout>

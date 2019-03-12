@@ -2,6 +2,7 @@ package io.github.controlwear.joystickdemo;
 
 import android.os.AsyncTask;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
@@ -25,7 +26,17 @@ public class SocketClient  extends AsyncTask {
             // Request data
             DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
 
+           // DataInputStream inputStream = new DataInputStream(socket.getInputStream());
+
             outputStream.write(message.getBytes("UTF-8"), 0, message.length());
+
+     /*       while(!inputStream.readUTF().equals(message)){
+                outputStream.write(message.getBytes("UTF-8"), 0, message.length());
+            }
+            */
+
+
+            //while()
         }
         catch (IOException io) {
             io.printStackTrace();
