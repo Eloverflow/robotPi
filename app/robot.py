@@ -1,3 +1,4 @@
+from time import sleep
 import keyboard
 import sys
 import socket
@@ -41,15 +42,11 @@ def left_side_forward(power):
     print >>sys.stderr, 'left_side_forward'
     GPIO.output(leftSideDisable, 0)
     GPIO.output(leftSideForward, 1)
-    time.sleep(.5)
-    GPIO.output(rightSideDisable, 1)
 
 def right_side_forward(power):
     print >>sys.stderr, 'right_side_forward'
     GPIO.output(rightSideDisable, 0)
     GPIO.output(rightSideForward, 1)
-    time.sleep(.5)
-    GPIO.output(leftSideDisable, 1)
 
 def left_side_reverse(power):
     print >>sys.stderr, 'left_side_reverse'
@@ -62,10 +59,12 @@ def right_side_reverse(power):
     GPIO.output(rightSideForward, 0)
 
 def stopLeft():
+    print >>sys.stderr, 'stopLeft'
     GPIO.output(leftSideDisable , 1)
     GPIO.output(leftSideForward , 0)
 
 def stopRight():
+    print >>sys.stderr, 'stopRight'
     GPIO.output(rightSideDisable, 1)
     GPIO.output(rightSideForward, 0)
 
@@ -85,28 +84,41 @@ while not timeToQuit:
        try:
          if keyboard.is_pressed('q'):
              timeToQuit = 1
-         data = connection.recv(16)
-         print >>sys.stderr, 'message from', client_address
+         data = connection.recv(2)
          print >>sys.stderr, data
-         if (data[0] == "L"):
-            left_side_forward(data[2])
-         elif (data[0] == "R"):
-            right_side_forward(data[2])
-         elif (data[0] == "A"):
-            left_side_reverse(data[2])
-         elif (data[0] == "P"):
-            right_side_reverse(data[2])
-         elif (data[0] == "S"):
-            if (data[2] == "L"):
+
+         if (len(data) == 1):
+            data = data + connection.recv(1)
+         elif (len(data) == 2 and data[0] == "S"):
+            if (data[1] == "L"):
                stopLeft()
-            elif (data[2] == "R"):
+#               connection.send(data)
+            elif (data[1] == "R"):
                stopRight()
-         elif (data == "Q"):
-            print ("Quit")
-            break
+#               connection.send(data)
+         elif (len(data) == 2):
+            data = data + connection.recv(1)
+
+         if (len(data) == 3):
+            if (data[0] == "L" and data[1] == "F"):
+               left_side_forward(data[2])
+#               connection.send(data)
+            elif (data[0] == "L" and data[1] == "B"):
+               left_side_reverse(data[2])
+#               connection.send(data)
+            elif (data[0] == "R" and data[1] == "F"):
+               right_side_forward(data[2])
+#               connection.send(data)
+            elif (data[0] == "R" and data[1] == "B"):
+               right_side_reverse(data[2])
+#               connection.send(data)
+
+         sleep(0.05)
+
        except KeyboardInterrupt:
          print >>sys.stderr, 'interrupt received, stopping'
          timeToQuit = 1
 
 
     connection.close()
+sock.shutdown(socket.SHUT_RDWR)
