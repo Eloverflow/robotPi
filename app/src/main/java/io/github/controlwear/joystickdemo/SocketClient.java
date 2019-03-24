@@ -1,6 +1,7 @@
 package io.github.controlwear.joystickdemo;
 
 import android.os.AsyncTask;
+import android.widget.TextView;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -9,14 +10,43 @@ import java.net.Socket;
 
 public class SocketClient  extends AsyncTask {
     private static Socket socket;
+    private static String state = "Off";
+
+    public static String getState(){
+        return state;
+    }
+
+    public static boolean closeSocket(){
+
+        try {
+            socket.close();
+            state = "Disconnected";
+            return true;
+        }
+        catch (IOException io) {
+            state = "Failed to close socket";
+            return false;
+        }
+    }
 
     private static void initialize(){
+        state = "Trying to connect...";
         try{
             // Establish connection
             socket = new Socket("192.168.2.210", 10000);
+
+            state = "Connected";
         }
             catch (IOException io) {
             io.printStackTrace();
+            try {
+                Thread.sleep(500);
+            }
+            catch (InterruptedException e) {
+                e.printStackTrace();
+                state = "Interrupted";
+            }
+            initialize();
         }
     }
 
@@ -40,6 +70,8 @@ public class SocketClient  extends AsyncTask {
         }
         catch (IOException io) {
             io.printStackTrace();
+            state = "Disconnected";
+            initialize();
         }
 
     }

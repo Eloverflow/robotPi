@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -40,5 +41,31 @@
         custom:JV_buttonColor="#555"
         custom:JV_buttonSizeRatio="25%"
         custom:JV_buttonDirection="vertical"/>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="1dp"
+        android:text="Write text" />
+
+    <TextView
+        android:id="@+id/textViewConnectionState"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Connection State" />
+
+    <!--   <ImageButton
+           android:id="@+id/imageButton"
+           android:layout_width="56dp"
+           android:layout_height="56dp"
+           android:layout_gravity="center_horizontal"
+
+           android:orientation="vertical"
+           android:adjustViewBounds="true"
+           app:srcCompat="@drawable/smiley_icon"
+           tools:srcCompat="@drawable/smiley_icon" />-->
 
 </RelativeLayout>
