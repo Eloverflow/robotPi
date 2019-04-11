@@ -6,6 +6,7 @@ import android.widget.TextView;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.NoRouteToHostException;
 import java.net.Socket;
 
 public class SocketClient  extends AsyncTask {
@@ -33,11 +34,16 @@ public class SocketClient  extends AsyncTask {
         state = "Trying to connect...";
         try{
             // Establish connection
-            socket = new Socket("192.168.2.210", 10000);
+            socket = new Socket("192.168.2.215", 9999);
 
             state = "Connected";
         }
-            catch (IOException io) {
+        catch (NoRouteToHostException eNoRoute){
+            eNoRoute.printStackTrace();
+            state = "No route to host";
+            initialize();
+        }
+        catch (IOException io) {
             io.printStackTrace();
             try {
                 Thread.sleep(500);

@@ -2,7 +2,7 @@ package io.github.controlwear.joystickdemo;
 
 import android.os.AsyncTask;
 
-public class DirectionSystemOperation extends AsyncTask<Integer, Void, String> {
+public class CmdExecution extends AsyncTask<Integer, Void, String> {
 
     private static final String LEFT_SIDE_FORWARD = "LF";
     private static final String LEFT_SIDE_BACKWARD = "LB";
@@ -12,19 +12,42 @@ public class DirectionSystemOperation extends AsyncTask<Integer, Void, String> {
     private static final String RIGHT_SIDE_BACKWARD = "RB";
     private static final String RIGHT_SIDE_STOP = "SR";
 
+    private static final String RESET_MESSAGE = "reset";
+
+    private static final int EVENT_TYPE_RESET_ROBOT = 0;
+    private static final int EVENT_TYPE_DIRECTION = 1;
 
     @Override
     protected String doInBackground(Integer... integers) {
         if(!DirectionSystemService.isExecutionLocked()){
             //DirectionSystemService.setExecutionLocked();
-            directionEventAsync(integers[0], integers[1], integers[2]);
+            directionEventAsync(integers[0], integers[1], integers[2], integers[3]);
             return "Executed";
         }
         return "Busy";
     }
 
-    private void directionEventAsync(int y, int pourcent, int isRightSide){
+    private void directionEventAsync(int type, int arg1, int arg2, int arg3){
+        // Type 0 = Reset robot
+        // Type 1 = DirectionEvent
+        this.handleEventType(type, arg1, arg2, arg3);
+    }
 
+    private void handleEventType(int type, int arg1, int arg2, int arg3){
+        switch (type){
+            case EVENT_TYPE_RESET_ROBOT:
+                handleResetRobot();
+                break;
+            case EVENT_TYPE_DIRECTION:
+                handleDirectionEvent(arg1, arg2, arg3);
+                break;
+        }
+    }
+    private void handleResetRobot() {
+        SocketClient.sendMessage(RESET_MESSAGE);
+    }
+
+    private void handleDirectionEvent(int y, int pourcent, int isRightSide){
         String direction = Util.getDirectionForYAxis(y);
         int power = Util.getDirectionPower(pourcent);
 

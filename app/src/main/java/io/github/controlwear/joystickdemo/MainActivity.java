@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import io.github.controlwear.virtual.joystick.android.JoystickView;
@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
     TextView connectionStateText;
     JoystickView joystickLeft;
     JoystickView joystickRight;
+    Button resetSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
                 int y = joystickLeft.getNormalizedY();
                 Log.d("y", y + "");
                 Log.d("strength", strength + "");
-                new DirectionSystemOperation().execute(y, strength, 0);
+                new CmdExecution().execute(1, y, strength, 0);
             }
         }, 200);
 
@@ -48,11 +49,20 @@ public class MainActivity extends AppCompatActivity {
                 int y = joystickRight.getNormalizedY();
                 Log.d("y", y + "");
                 Log.d("strength", strength + "");
-                new DirectionSystemOperation().execute(y, strength, 1);
+                new CmdExecution().execute(1, y, strength, 1);
 
             }
         }, 200);
 
+
+        resetSwitch = (Button) findViewById(R.id.reset_switch);
+
+        resetSwitch.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new CmdExecution().execute(0, 0, 0, 0);
+            }
+        });
     }
 
     @Override

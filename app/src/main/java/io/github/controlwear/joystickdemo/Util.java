@@ -15,15 +15,17 @@ public class Util {
 
     public static int getDirectionPower(int pourcent){
         int power;
-        if(pourcent >= 95){
+        if(pourcent >= 100){
             power = 9;
-        } else if(pourcent >= 85){
+        } else if(pourcent >= 95){
             power = 7;
-        } else if(pourcent >= 75){
+        } else if(pourcent >= 90){
+            power = 6;
+        } else if(pourcent >= 85){
             power = 5;
-        } else if(pourcent >= 65){
+        } else if(pourcent >= 80){
             power = 4;
-        } else if(pourcent >= 55){
+        } else if(pourcent >= 65){
             power = 3;
         } else if(pourcent >= 45){
             power = 2;
