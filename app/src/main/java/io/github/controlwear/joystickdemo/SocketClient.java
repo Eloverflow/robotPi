@@ -12,16 +12,18 @@ import java.net.Socket;
 public class SocketClient  extends AsyncTask {
     private static Socket socket;
     private static String state = "Off";
+    private boolean socketClosed = false;
 
     public static String getState(){
         return state;
     }
 
-    public static boolean closeSocket(){
+    public boolean closeSocket(){
 
         try {
             socket.close();
             state = "Disconnected";
+            socketClosed = true;
             return true;
         }
         catch (IOException io) {
@@ -30,29 +32,35 @@ public class SocketClient  extends AsyncTask {
         }
     }
 
-    private static void initialize(){
-        state = "Trying to connect...";
-        try{
-            // Establish connection
-            socket = new Socket("192.168.2.215", 9999);
 
-            state = "Connected";
-        }
-        catch (NoRouteToHostException eNoRoute){
-            eNoRoute.printStackTrace();
-            state = "No route to host";
-            initialize();
-        }
-        catch (IOException io) {
-            io.printStackTrace();
-            try {
-                Thread.sleep(500);
+    private void initialize(){
+        if(!socketClosed){
+            state = "Trying to connect...";
+            try{
+                // Establish connection
+                socket = new Socket(ConfigurationService.getRobotIpAddress(), 9999);
+
+                state = "Connected";
             }
-            catch (InterruptedException e) {
-                e.printStackTrace();
-                state = "Interrupted";
+            catch (NoRouteToHostException eNoRoute){
+                eNoRoute.printStackTrace();
+                try {
+                    Thread.sleep(500);
+                }
+                catch (InterruptedException e) {
+                }
+                state = "No route to host";
+                initialize();
             }
-            initialize();
+            catch (IOException io) {
+                io.printStackTrace();
+                try {
+                    Thread.sleep(500);
+                }
+                catch (InterruptedException e) {
+                }
+                initialize();
+            }
         }
     }
 
@@ -77,7 +85,6 @@ public class SocketClient  extends AsyncTask {
         catch (IOException io) {
             io.printStackTrace();
             state = "Disconnected";
-            initialize();
         }
 
     }
