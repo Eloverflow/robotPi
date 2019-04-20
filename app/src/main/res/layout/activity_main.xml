@@ -50,6 +50,14 @@
         android:layout_marginRight="1dp"
         android:text="Reset robot" />
 
+    <Button
+        android:id="@+id/change_ip_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="1dp"
+        android:text="IP Address" />
+
     <TextView
         android:id="@+id/textViewConnectionState"
         android:layout_centerHorizontal="true"
