@@ -21,7 +21,8 @@ public class SocketClient  extends AsyncTask {
     public boolean closeSocket(){
 
         try {
-            socket.close();
+            if(socket != null)
+                socket.close();
             state = "Disconnected";
             socketClosed = true;
             return true;
