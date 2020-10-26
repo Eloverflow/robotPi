@@ -1,3 +1,3 @@
 # RobotPi
 
-This is the remote control interface to a RC car build with DC motor, sensors and a raspberry pi
+This is the remote control interface to a homemade remote controlled car which is built with DC motors and sensors connected to a Raspberry Pi
